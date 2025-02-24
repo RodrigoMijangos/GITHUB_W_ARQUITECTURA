@@ -9,7 +9,6 @@ import (
 func ProcessPullRequest(payload []byte) int {
 	var eventPayload domain.PullRequestReviewEventPayload
 
-	log.Printf("Payload recibido: %s", payload)
 
 
 	if err := json.Unmarshal(payload, &eventPayload); err != nil {
