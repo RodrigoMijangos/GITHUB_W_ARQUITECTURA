@@ -8,12 +8,13 @@ type PullRequestEventPayload struct {
 }
 
 type PullRequest struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"`
-	Head  Branch `json:"head"`
-	Base  Branch `json:"base"`
-	URL   string `json:"url"`
-	User  User   `json:"user"`
+	ID       int    `json:"id"`
+	Title    string `json:"title"`
+	Head     Branch `json:"head"`
+	Base     Branch `json:"base"`
+	URL      string `json:"url"`
+	User     User   `json:"user"`
+	HTML_URL string `json:"html_url"`
 }
 
 type Branch struct {

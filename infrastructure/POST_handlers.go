@@ -1,4 +1,4 @@
-package handlers
+package infrastructure
 
 import (
 	"github_wb/application"
@@ -29,7 +29,13 @@ func PullRequestEvent(ctx *gin.Context) {
 
 	switch eventType {
 	case "pull_request":
-		statusCode = application.ProcessPullRequest(payload)
+		msg := application.ProcessPullRequest(payload)
+
+		if msg == "ERROR" {
+			statusCode = 500
+		} else {
+			statusCode = SendMessageToDiscord(msg)
+		}
 	}
 
 	switch statusCode {
