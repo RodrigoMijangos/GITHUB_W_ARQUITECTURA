@@ -34,12 +34,15 @@ func PullRequestEvent(ctx *gin.Context) {
 
 	switch statusCode {
 	case 200:
-		ctx.JSON(http.StatusOK, gin.H{"status": "Evento Pull Request recibido y procesado"})
+		ctx.JSON(http.StatusOK, gin.H{
+			"status": "Evento Pull Request recibido y procesado",
+			"mensaje": "Cambio procesado exitosamente: " + string(payload), 
+		})
 	case 500:
 		log.Printf("Error al deserializar el payload del pull request: %v", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Error al procesar el payload del pull request"})
 	default:
-		ctx.JSON(http.StatusOK, gin.H{"status": "Peticion procesada"})
+		ctx.JSON(http.StatusOK, gin.H{"status": "Petición procesada"})
 	}
 
 }
