@@ -6,11 +6,11 @@ import (
 	"log"
 )
 
-func ProcessPullRequest(payload []byte) int {
+func ProcessPullRequest(payload []byte) string {
 	var eventPayload domain.PullRequestEventPayload
 
 	if err := json.Unmarshal(payload, &eventPayload); err != nil {
-		return 500
+		return "ERROR"
 	}
 
 	if eventPayload.Action == "closed" {
@@ -39,5 +39,11 @@ func ProcessPullRequest(payload []byte) int {
 			mainBranch, eventPayload.PullRequest.Base.Ref)
 	}*/
 
-	return 200
+	base := eventPayload.PullRequest.Base.Ref
+	head := eventPayload.PullRequest.Head.Ref
+	html_url := eventPayload.PullRequest.HTML_URL
+	user := eventPayload.PullRequest.User.Login
+	repository_full_name := eventPayload.Repository.FullName
+
+	return generateDiscordMessage(base, head, html_url, user, repository_full_name)
 }
