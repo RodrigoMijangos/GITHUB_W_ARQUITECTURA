@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	domain "github_wb/domain/value_objects"
 	"log"
+		"fmt"
 )
 
 func ProcessPullRequest(payload []byte) int {
@@ -24,20 +25,39 @@ func ProcessPullRequest(payload []byte) int {
 		log.Printf("Pull Request Action no es Closed: %s", eventPayload.Action)
 	}
 
-	/*log.Printf(
-	"Evento Pull Request recibido: \nAcción=%s, \nPR Título='%s', \nRama Base='%s', \nRepositorio='%s'",
-	eventPayload.Action, eventPayload.PullRequest.Title, eventPayload.PullRequest.Base.Ref, eventPayload.Repository.FullName)]*/
+	log.Printf("Evento Pull Request recibido: Acción=%s, Título='%s', Base='%s', Repositorio='%s'",
+		eventPayload.Action,
+		eventPayload.PullRequest.Title,
+		eventPayload.PullRequest.Base.Ref,
+		eventPayload.Repository.FullName)
 
-	/*mainBranch := "develop"
+	// Acciones de interés
 
-	if eventPayload.PullRequest.Base.Ref == mainBranch {
-		log.Printf("¡Pull Request a la rama '%s' detectado en el repositorio '%s'!", mainBranch, eventPayload.Repository.FullName)
-		fmt.Printf("Pull Request detectado en la rama %s!\n", mainBranch)
-	} else {
-		log.Printf(
-			"Pull Request detectado, pero no dirigido a la rama '%s'. Rama base: '%s'",
-			mainBranch, eventPayload.PullRequest.Base.Ref)
-	}*/
+
+	if err := json.Unmarshal(payload, &eventPayload); err != nil {
+		log.Printf("Error al procesar el payload: %v", err)
+		return 500
+	}
+
+	// Mensaje general de PR recibido
+	log.Printf("Evento Pull Request recibido: Acción=%s, Título='%s', Base='%s', Repositorio='%s'",
+		eventPayload.Action,
+		eventPayload.PullRequest.Title,
+		eventPayload.PullRequest.Base.Ref,
+		eventPayload.Repository.FullName)
+
+	// Acciones de interés
+	switch eventPayload.Action {
+	case "opened":
+		fmt.Printf("\n Nuevo Pull Request creado por %s en %s\n", eventPayload.PullRequest.User.Login, eventPayload.Repository.FullName)
+	case "synchronize":
+		fmt.Printf("\n Pull Request actualizado: %s\n", eventPayload.PullRequest.Title)
+	case "closed":
+		fmt.Printf("\n Pull Request cerrado: %s\n", eventPayload.PullRequest.Title)
+	default:
+		fmt.Printf("\n  ℹAcción del PR detectada: %s\n", eventPayload.Action)
+	}
+
 
 	return 200
 }
