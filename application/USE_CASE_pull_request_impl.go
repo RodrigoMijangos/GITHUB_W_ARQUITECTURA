@@ -31,7 +31,7 @@ func ProcessPullRequest(payload []byte) int {
 		eventPayload.PullRequest.Base.Ref,
 		eventPayload.Repository.FullName)
 
-	// Acciones de interés
+	
 
 
 	if err := json.Unmarshal(payload, &eventPayload); err != nil {
@@ -39,14 +39,13 @@ func ProcessPullRequest(payload []byte) int {
 		return 500
 	}
 
-	// Mensaje general de PR recibido
+	
 	log.Printf("Evento Pull Request recibido: Acción=%s, Título='%s', Base='%s', Repositorio='%s'",
 		eventPayload.Action,
 		eventPayload.PullRequest.Title,
 		eventPayload.PullRequest.Base.Ref,
 		eventPayload.Repository.FullName)
 
-	// Acciones de interés
 	switch eventPayload.Action {
 	case "opened":
 		fmt.Printf("\n Nuevo Pull Request creado por %s en %s\n", eventPayload.PullRequest.User.Login, eventPayload.Repository.FullName)
@@ -55,7 +54,7 @@ func ProcessPullRequest(payload []byte) int {
 	case "closed":
 		fmt.Printf("\n Pull Request cerrado: %s\n", eventPayload.PullRequest.Title)
 	default:
-		fmt.Printf("\n  ℹAcción del PR detectada: %s\n", eventPayload.Action)
+		fmt.Printf("\n  !Acción del PR detectada: %s\n", eventPayload.Action)
 	}
 
 
