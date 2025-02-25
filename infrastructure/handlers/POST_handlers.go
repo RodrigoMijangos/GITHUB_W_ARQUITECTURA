@@ -20,7 +20,7 @@ func PullRequestEvent(ctx *gin.Context) {
 	payload, err := ctx.GetRawData()
 
 	if err != nil {
-		log.Printf("Error al leer el cuerpo de la solicitud: %v", err)
+		log.Printf("Erro al leer el cuerpo de la solicitud: %v", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Error al leer el cuerpo de la solicitud"})
 		return
 	}
