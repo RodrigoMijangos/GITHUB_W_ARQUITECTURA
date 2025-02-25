@@ -5,7 +5,7 @@ import (
 	domain "github_wb/domain/value_objects"
 	"log"
 )
-//Hola mundo
+//Hola mundo 2
 func ProcessPullRequest(payload []byte) int {
 	var eventPayload domain.PullRequestEventPayload
 
